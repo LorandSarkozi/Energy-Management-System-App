@@ -13,7 +13,9 @@ The **Energy Management System (EMS)** is a full-stack, microservices-based appl
   _This demo walks through launching the app via Docker, navigating the UI, managing users and devices, and using the real-time chat functionality._
 
 - **🔌 Device Simulation**  
-  [![Simulation](https://github.com/user-attachments/assets/simulation.mp4)](https://github.com/user-attachments/assets/simulation.mp4)  
+
+  https://github.com/user-attachments/assets/6f760e99-c280-4e52-8231-8a7f9bdae21e
+
   _This demo illustrates how the device simulator reads CSV energy data and sends hourly consumption to the backend via RabbitMQ._
 
 ### Microservices:
