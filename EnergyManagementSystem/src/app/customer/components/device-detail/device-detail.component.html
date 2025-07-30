@@ -1,0 +1,24 @@
+<div class="device-detail-container">
+  <h2>Device Detail</h2>
+  <div class="control-panel">
+    <label for="date-picker">Select Date:</label>
+    <input
+      type="date"
+      id="date-picker"
+      [(ngModel)]="selectedDate"
+      (change)="loadConsumptionData()"
+    />
+    <button (click)="loadConsumptionData()">Reload</button>
+  </div>
+
+  <div *ngIf="consumptionData.length > 0; else noData" class="chart-container">
+    <h3>Hourly Energy Consumption</h3>
+    <canvas id="consumptionChart"></canvas>
+  </div>
+
+  <ng-template #noData>
+    <div class="no-data-message">
+      <p>No data available for the selected date.</p>
+    </div>
+  </ng-template>
+</div>

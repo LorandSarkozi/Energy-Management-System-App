@@ -1,0 +1,51 @@
+<!-- List of clients displayed with names -->
+<div *ngFor="let client of clients" class="client-card" (click)="selectClient(client)">
+  <div class="client-name">
+    {{ client.name }} - 
+    <span *ngIf="client.role === 'CUSTOMER'">Customer</span>
+    <span *ngIf="client.role === 'ADMIN'">Admin</span>
+  </div>
+</div>
+
+<!-- Display chat window if a client is selected -->
+<div *ngIf="selectedClient" class="chat-window">
+  <h3>Chat with {{ selectedClient.name }}</h3>
+
+  <!-- Displaying sender messages (messages sent by the logged-in admin) -->
+  <div class="messages-section">
+    <h4>Sent Messages</h4>
+    <div class="messages-container">
+      <p *ngFor="let message of senderMessages" class="admin-message">
+        <strong>Me:</strong> {{ message.content }}
+        <small class="timestamp">{{ message.timestamp | date: 'shortTime' }}</small>
+      </p>
+
+      <!-- Displaying the read status after the last sender message -->
+      <div *ngIf="senderMessages.length > 0" class="read-status">
+        <small>{{ readStatus }}</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Displaying receiver messages (messages received from the client) -->
+  <div class="messages-section">
+    <h4>Received Messages</h4>
+    <div class="messages-container">
+      <p *ngFor="let message of receiverMessages" class="client-message">
+        <strong>{{ selectedClient.name }}:</strong> {{ message.content }}
+        <small class="timestamp">{{ message.timestamp | date: 'shortTime' }}</small>
+      </p>
+    </div>
+  </div>
+
+  <!-- Typing Indicator -->
+  <div *ngIf="typingStatus" class="typing-indicator">
+    <em>{{ typingStatus }}</em>
+  </div>
+
+  <!-- Form to write a new message -->
+  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+    <textarea formControlName="newMessage" placeholder="Write a message..." class="message-input" (input)="onTyping()" (blur)="onStopTyping()"></textarea>
+    <button type="submit" [disabled]="chatForm.invalid" class="send-btn">Send</button>
+  </form>
+</div>

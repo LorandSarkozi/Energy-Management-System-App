@@ -1,0 +1,68 @@
+// Main container styling
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f7fa;
+    min-height: 100vh;
+  
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  // Buttons container styling
+  .button-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  
+    button {
+      padding: 12px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+  
+      &.clients-button {
+        background-color: #28a745;
+  
+        &:hover {
+          background-color: #218838;
+        }
+      }
+  
+      &.devices-button {
+        background-color: #ffc107;
+  
+        &:hover {
+          background-color: #e0a800;
+        }
+      }
+    }
+  }
+  
+  // Adding responsiveness for smaller screens
+  @media (max-width: 768px) {
+    .button-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+  
+      button {
+        width: 100%;
+      }
+    }
+  }
+  

@@ -1,0 +1,83 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 64px;
+  
+    // Logo styling
+    .navbar-logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.5rem; // Reduced margin for closer alignment to title
+      cursor: pointer;
+      transition: transform 0.3s ease;
+  
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  
+    // Title styling
+    .navbar-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      margin-left: 0.5rem; // Moves text slightly closer to the logo
+      letter-spacing: 0.5px;
+      flex-grow: 0; // Prevents title from spreading across the toolbar
+    }
+  
+    // Spacer to push buttons to the right
+    .spacer {
+      flex-grow: 1;
+    }
+  
+    // Button styling
+    button[mat-button] {
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.3s ease;
+  
+      &.active {
+        color: #ffeb3b; // Active link color
+      }
+  
+      &:hover {
+        color: #ffeb3b;
+      }
+    }
+  }
+  
+  .welcome-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the message content */
+    margin: 50px auto;
+    padding: 40px 20px; /* Increased padding for more breathing space */
+    max-width: 800px; /* Limiting the width for better readability */
+    background-color: #ffffff; /* White background for a clean look */
+    border-radius: 12px; /* More pronounced rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow for more depth */
+    text-align: center; /* Center text alignment */
+  
+    h1 {
+      font-size: 3rem; /* Increased size for the heading */
+      font-weight: 800; /* Bolder for emphasis */
+      color: #2c3e50; /* Darker shade for better contrast */
+      margin-bottom: 1.5rem; /* Increased space below the heading */
+      letter-spacing: 1.5px; /* Slightly increased letter spacing for elegance */
+      text-transform: uppercase; /* Uppercase for a modern feel */
+      line-height: 1.2; /* Improved line height for better readability */
+    }
+  
+    p {
+      font-size: 1.25rem; /* Slightly larger font for better readability */
+      color: #34495e; /* Softer, darker color for the paragraph */
+      line-height: 1.8; /* Increased line height for better spacing */
+      max-width: 600px; /* Limit paragraph width */
+      margin: 30px; /* Reset default margin */
+      padding: 0 10px; /* Added horizontal padding for mobile responsiveness */
+    }
+  }

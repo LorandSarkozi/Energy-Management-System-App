@@ -1,0 +1,98 @@
+// Container settings for centering and styling the form
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f6f8;
+    padding: 2rem;
+  
+    mat-card {
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+  
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+  
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    // Form field styling
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 1.2rem;
+  
+      .mat-form-field-outline {
+        border-color: #1976d2; // Outline color for fields
+      }
+  
+      mat-label {
+        color: #555;
+        font-weight: 500;
+      }
+  
+      input[matInput] {
+        font-size: 1rem;
+        color: #333;
+      }
+  
+      mat-error {
+        font-size: 0.875rem;
+        color: #d32f2f;
+        font-weight: 400;
+      }
+    }
+  
+    // Password visibility toggle button
+    button[mat-icon-button] {
+      color: #757575;
+      &:hover {
+        color: #1976d2;
+      }
+    }
+  
+    // Submit button styling
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      background-color: #1976d2;
+      color: #fff;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #1565c0;
+      }
+  
+      &:disabled {
+        background-color: #b0bec5;
+        color: #eceff1;
+      }
+    }
+  }
+  
+  // Additional styling for snackbars and error messages
+  .error-snackbar {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .success-snackbar {
+    background-color: #388e3c;
+    color: white;
+  }
+  
