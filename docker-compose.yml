@@ -1,0 +1,179 @@
+services:
+  user-service:
+    build:
+      context: ./spring-demo
+      dockerfile: ./Dockerfile
+    depends_on:
+      - user-db
+    deploy:
+      replicas: 4
+    environment:
+      DB_IP: user-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ***
+      DB_DBNAME: demo12
+    networks:
+      - my_custom_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.user-service.rule=Host(`user.localhost`)"
+      - "traefik.http.services.user-service.loadbalancer.server.port=8080"
+
+  user-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ***
+      MYSQL_DATABASE: demo12
+    volumes:
+      - user_mysql_data:/var/lib/mysql
+    networks:
+      - my_custom_network
+
+  device-service:
+    build:
+      context: ./spring-demo-devices
+      dockerfile: ./Dockerfile
+    depends_on:
+      - device-db
+      - user-db
+      - rabbitmq
+    environment:
+      DB_IP: device-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ***
+      DB_DBNAME: devices_db
+    networks:
+      - my_custom_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.device-service.rule=Host(`device.localhost`)"
+      - "traefik.http.services.device-service.loadbalancer.server.port=8081"
+
+  device-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ***
+      MYSQL_DATABASE: devices_db
+    volumes:
+      - device_mysql_data:/var/lib/mysql
+    networks:
+      - my_custom_network
+
+  measurement-service:
+    build:
+      context: ./measurements-demo
+      dockerfile: ./Dockerfile
+    depends_on:
+      - device-db
+      - rabbitmq
+    environment:
+      DB_IP: measurement-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ***
+      DB_DBNAME: measurements
+    networks:
+      - my_custom_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.measurement-service.rule=Host(`measurement.localhost`)"
+      - "traefik.http.services.measurement-service.loadbalancer.server.port=8082"
+
+  measurement-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ***
+      MYSQL_DATABASE: measurements
+    volumes:
+      - measurements_mysql_data:/var/lib/mysql
+    networks:
+      - my_custom_network
+
+  chat-service:
+    build:
+      context: ./chat-demo
+      dockerfile: ./Dockerfile
+    depends_on:
+      - user-service
+      - chat-db
+    environment:
+      DB_IP: chat-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ***
+      DB_DBNAME: chats
+    networks:
+      - my_custom_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.chat-service.rule=Host(`chat.localhost`)"
+      - "traefik.http.services.chat-service.loadbalancer.server.port=8083"
+
+  chat-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ***
+      MYSQL_DATABASE: chats
+    volumes:
+      - chat_mysql_data:/var/lib/mysql
+    networks:
+      - my_custom_network
+
+  frontend:
+    build:
+      context: ./EnergyManagementSystem  
+      dockerfile: Dockerfile
+    depends_on:
+      - user-service
+      - device-service
+    ports:
+      - '3000:80'
+    restart: always
+    environment:
+      USER_SERVICE_URL: http://user-service
+      DEVICE_SERVICE_URL: http://device-service
+      MEASUREMENT_SERVICE_URL: http://measurement-service
+      CHAT_SERVICE_URL: http://chat-service
+    networks:
+      - my_custom_network
+    
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - my_custom_network
+
+  reverse-proxy:
+    image: traefik:v3.2
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --log.level=DEBUG
+      - --entrypoints.web.address=:80
+      - --api.dashboard=true
+    ports:
+      - "80:80"
+      - "8087:8087"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - my_custom_network
+
+volumes:
+  user_mysql_data:
+  device_mysql_data:
+  measurements_mysql_data:
+  chat_mysql_data:
+
+networks:
+  my_custom_network:
+    driver: bridge
